@@ -1,89 +1,80 @@
-<h1>
-  <span class="headline">New Project</span>
-  <span class="subhead">Setup</span>
-</h1>
+# LitCritique — Book Review App
 
-## Setup
+A full-stack MEN application where users can log in, add book reviews, browse everyone's reviews, and leave reading notes on any book.
 
-Open your Terminal application and navigate to your projects directory:
+---
 
-## Cloning the Auth boilerplate
+## User stories
 
-This template uses the [`MEN Stack Auth Template`](https://github.com/Bahrain-SEB-15/SOLUTION-SESSION-AUTH-TEMPLATE) as starter code. Doing so allows us to have a connection established to our MongoDB Atlas, add functioning auth for our user model, and install some of the packages we will need for our app build.
+- As a **guest**, I want to sign up for an account so that I can start reviewing books.
+- As a **guest**, I want to log in so that I can access my account.
+- As a **logged-in user**, I want to see a list of all book reviews from every user so that I can discover new books.
+- As a **logged-in user**, I want to search/filter books by title, author, genre, or status so that I can quickly find the review I'm looking for.
+- As a **logged-in user**, I want to add a new book review, including a cover image, so that I can share my thoughts.
+- As a **logged-in user**, I want to edit or delete only my own book reviews so that I stay in control of my own content.
+- As a **logged-in user**, I want to add a reading note to any book so that I can share a thought at a specific page.
+- As a **logged-in user**, I want to delete only the notes I personally wrote so that others' notes stay intact.
+- As a **logged-in user**, I want to log out so that my session ends securely.
 
-Navigate to the [SOLUTION Session Auth Template](https://github.com/Bahrain-SEB-15/SOLUTION-SESSION-AUTH-TEMPLATE) and clone the repository to your machine and rename the folder to your desired project name by running the following command in your terminal.
+---
 
-**Be sure to replace `<YOUR-PROJECT-NAME>` with your desired project name!**:
+## ERD (Entity Relationship Diagram)
 
-```bash
-git clone https://github.com/Bahrain-SEB-15/SOLUTION-SESSION-AUTH-TEMPLATE.git <YOUR-PROJECT-NAME>
-```
+![ERD](assets/LitCritique.png)
 
-Note by adding the `<YOUR-PROJECT-NAME>` argument we're cloning the specified repo into a directory called `<YOUR-PROJECT-NAME>` on our machines.
+- **User → Book**: one-to-many, referenced. Each book stores a `user` field (foreign key) pointing to its owner.
+- **Book → Note**: one-to-many, embedded. Notes are stored directly inside each book's `notes` array.
+- **User → Note**: one-to-many, referenced. Each embedded note stores its own `user` field, since any logged-in user can add a note to any book.
 
-Next, `cd` into your renamed directory:
+---
 
-**Be sure to replace `<YOUR-PROJECT-NAME>` with your desired project name!**:
+## Wireframes
 
-```bash
-cd <YOUR-PROJECT-NAME>
-```
+![Wireframes](assets/wireFrames.png)
 
-Finally, remove the existing `.git` information from this template:
+Pages included:
+1. Landing page
+2. Login
+3. Sign up
+4. Books index (home) — navbar includes a **Search** link alongside Home, Favorites, and Add
+5. Search / filter books — accessed from the Search link in the navbar; filters the books index by title, author, genre, or status via query string
+6. Add a book (new)
+7. Edit a book
+8. Book detail / review (show)
+9. Favorites
 
-```bash
-rm -rf .git
-```
+---
 
-> Removing the `.git` info is important as this is just a starter template provided by GA. You do not need the existing git history for this project.
+## RESTful routes
 
-## GitHub setup
+### Auth routes
 
-To add this project to GitHub, initialize a new Git repository:
+| HTTP method | Path | Purpose |
+|---|---|---|
+| GET | `/auth/sign-up` | Render sign-up form |
+| POST | `/auth/sign-up` | Create a new user |
+| GET | `/auth/sign-in` | Render login form |
+| POST | `/auth/sign-in` | Log in a user |
+| POST | `/auth/sign-out` | Log out the current user |
 
-```bash
-git init
-git add .
-git commit -m "init commit"
-```
+### Book routes
 
-Make a new repository on [GitHub](https://github.com/) for your project.
+| HTTP method | Path | CRUD | Purpose |
+|---|---|---|---|
+| GET | `/books` | index | Show all books from all users |
+| GET | `/books?q=&status=&genre=` | index (filtered) | Search/filter books by title, author, genre, or status (query string, same controller as index; reached via the navbar Search link) |
+| GET | `/books/new` | new | Render form to add a book |
+| POST | `/books` | create | Create a new book (owner = current user) |
+| GET | `/books/:bookId` | show | Show a single book's details, review, and notes |
+| GET | `/books/:bookId/edit` | edit | Render edit form (owner only) |
+| PUT | `/books/:bookId` | update | Update a book (owner only) |
+| DELETE | `/books/:bookId` | delete | Delete a book (owner only) |
 
-Link your local project to your remote GitHub repo:
+### Note routes (nested under Book)
 
-- use the second set of commands that appear on the empty repo to connect your local project to GitHub.
+| HTTP method | Path | CRUD | Purpose |
+|---|---|---|---|
+| POST | `/books/:bookId/notes` | create | Add a note to a book (any logged-in user) |
+| DELETE | `/books/:bookId/notes/:noteId` | delete | Delete a note (author only) |
 
-> 🚨 Do not copy the above command. It will not work. Your GitHub username will replace `<github-username>` (including the `<` and `>`) in the URL above.
-
-Open the project's folder in your code editor:
-
-```bash
-code .
-```
-
-## Install dependencies
-
-Next, you will want to install all of the packages listed in `package.json`
-
-```bash
-npm i
-```
-
-## Create your .env
-
-Lastly, we want to create `MONGODB_URI` and `SESSION_SECRET` to hold values used in our auth logic.  `MONGODB_URI` will connect to your MongoDB Atlas connection string so you will need to establish one for this application.  `SESSION_SECRET` will aid in your auth session logic.
-
-Add a `.env` file to your application and add the following secret keys to your application:
-
-```text
-MONGODB_URI=
-SESSION_SECRET=
-```
-
-Start the server and you are ready for launch.
-
-```bash
-npm run dev
-```
-
-Happy Coding!
+---
