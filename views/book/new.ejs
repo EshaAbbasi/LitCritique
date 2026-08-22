@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add book</title>
+</head>
+<body>
+    <form action="/books" method="post">
+        <label for="title">Title:</label>
+        <input type="text" name="title" id="title"/>
+
+        <label for="author">Author:</label>
+        <input type="text" name="author" id="author"/>
+
+        <label for="genre">Genre</lable>
+       <select id="genre" name="genre">
+        <option value="Non-Fiction">Non-Fiction</option>
+         <option value="Fantasy">Fantasy</option>
+          <option value="Sci-Fi">Sci-Fi</option>
+           <option value="Mystery">Mystery</option>
+            <option value="Thriller">Thriller</option>
+             <option value="Romance">Romance</option>
+       <option value="Horror">Horror</option>
+       </select>
+
+        <label for="rating">Rating</label>
+        <input type="number" name="number" id="number"min="1" max="5/>
+        
+        <label for="reviewtext">Review Text</label>
+        <input type="string" name="reviewtext" id="reviewtext"/>
+    <label for="coverImage">Image</label>
+    <input type="coverImage" id="coverImage" name="coverImage"/>
+    
+
+        
+  <label for="status">Status:</label>
+  <select id="status" name="status">
+    <option value="wanttoread">want to read</option>
+    <option value="finished">Finished</option>
+    <option value="reading">Reading</option>
+   </select>
+<button type="submit">Submit</button>
+    </form>
+    
+</body>
+</html>
