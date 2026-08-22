@@ -1,0 +1,8 @@
+<h1>All Books</h1>
+<% books.forEach(book => { %>
+  <div>
+    <h3><%= book.title %></h3>
+    <p>by <%= book.author %></p>
+    <p>Owner: <%= book.user ? book.user.username : 'Unknown' %></p>
+  </div>
+<% }) %>
