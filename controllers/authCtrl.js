@@ -35,7 +35,7 @@ const register = async (req, res) => {
     };
     // redirect to homepage
     req.session.save(() => {
-      res.redirect('/');
+      res.redirect('/books');
     });
   } catch (err) {
     console.log(err);
@@ -69,7 +69,7 @@ const login = async (req, res) => {
   };
 
   req.session.save(() => {
-    res.redirect('/');
+    res.redirect('/books');
   });
 };
 

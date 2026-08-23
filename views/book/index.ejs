@@ -1,8 +1,47 @@
-<h1>All Books</h1>
-<% books.forEach(book => { %>
-  <div>
-    <h3><%= book.title %></h3>
-    <p>by <%= book.author %></p>
-    <p>Owner: <%= book.user ? book.user.username : 'Unknown' %></p>
-  </div>
-<% }) %>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- views/book/index.ejs -->
+    <link rel="stylesheet" href="/stylesheets/index.css" />
+    <title>All Books</title>
+  </head>
+
+  <body>
+    <%- include('../partials/_navbar.ejs') %>
+
+    <div class="index-header">
+      <h1>All Books</h1>
+      <div class="index-actions">
+        <a href="/">Home</a>
+        <a href="/books/new">Add New Book</a>
+          <a href="/books?fav=true">Favourites</a>
+      </div>
+    </div>
+
+    <div class="book-list">
+      <% books.forEach(book => { %>
+      <div class="book-card">
+        <a href="/books/<%= book._id %>">
+          <h3><%= book.title %></h3>
+        </a>
+        <p>by <%= book.author %></p>
+        <p>Owner: <%= book.user ? book.user.username : 'Unknown' %></p>
+
+        <% if (book.fav) { %>
+        <p>⭐ Favorite</p>
+        <% } %>
+
+        <div class="book-card-actions">
+          <a href="/books/<%= book._id %>">View Details</a>
+
+          <% if (book.user && currentUser && book.user._id.toString() === currentUser._id.toString()) { %>
+          <a href="/books/<%= book._id %>/edit">Edit</a>
+          <% } %>
+        </div>
+      </div>
+      <% }) %>
+    </div>
+  </body>
+</html>

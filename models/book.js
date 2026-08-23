@@ -1,5 +1,24 @@
 const mongoose=require('mongoose');
 
+const noteSchema = new mongoose.Schema({
+  text: {
+    type: String,
+    required: true,
+  },
+  page: {
+    type: Number,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+  },
+});
+
 const bookSchema=new mongoose.Schema({
 title:{
     type:String,
@@ -35,12 +54,13 @@ rating:{
 reviewtext:{
     type:String
 },
-fav:{
-    type:String
+fav: {
+  type: Boolean,
+  default: false,
 },
 coverImage:{
     type:String},
-//notes:[noteSchema],
+notes:[noteSchema],
 user:{
     type:mongoose.Schema.Types.ObjectId,
     ref:'User'
@@ -48,4 +68,4 @@ user:{
 
 })
 const Book=mongoose.model('Book',bookSchema);
-M=module.exports=Book;
+module.exports=Book;

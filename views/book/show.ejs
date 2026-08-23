@@ -29,17 +29,21 @@
         <p>Rating: <%= book.rating %> / 5</p>
         <% } %>
 
-        <% if (book.fav) { %>
-        <p>Favorite: <%= book.fav %></p>
-        <% } %>
+        <form action="/books/<%= book._id %>/favorite?_method=PUT" method="POST" class="fav-form">
+          <button type="submit">
+            <%= book.fav ? '⭐ Favorited' : '☆ Add to Favorites' %>
+          </button>
+        </form>
 
         <div class="show-sidebar">
+          <% if (book.user && book.user._id.toString() === currentUser._id.toString()) { %>
           <div class="show-actions">
             <a href="/books/<%= book._id %>/edit">Edit Book</a>
             <form action="/books/<%= book._id %>?_method=DELETE" method="POST">
               <button type="submit">Delete Book</button>
             </form>
           </div>
+          <% } %>
         </div>
       </div>
 
@@ -50,7 +54,61 @@
           <p><%= book.reviewtext %></p>
         </div>
         <% } %>
+
+        <h2>Notes</h2>
+        <% if (book.notes && book.notes.length) { %>
+        <ul class="notes-list">
+          <% book.notes.forEach(note => { %>
+          <li>
+            <p><%= note.text %></p>
+            <% if (note.page) { %>
+            <p>Page: <%= note.page %></p>
+            <% } %>
+            <small><%= note.createdAt.toLocaleDateString() %></small>
+
+            <% if (note.user.toString() === currentUser._id.toString()) { %>
+            <form
+              action="/books/<%= book._id %>/notes/<%= note._id %>?_method=DELETE"
+              method="POST"
+            >
+              <button type="submit">Delete Note</button>
+            </form>
+            <% } %>
+          </li>
+          <% }) %>
+        </ul>
+        <% } else { %>
+        <p>No notes yet.</p>
+        <% } %>
+
+        <button type="button" id="toggle-note-form-btn">+ Add Note</button>
+
+        <form
+          action="/books/<%= book._id %>/notes"
+          method="POST"
+          id="add-note-form"
+          style="display: none;"
+        >
+          <label for="text">Note</label>
+          <textarea name="text" id="text" required></textarea>
+
+          <label for="page">Page (optional)</label>
+          <input type="number" name="page" id="page" />
+
+          <button type="submit">Save Note</button>
+        </form>
       </div>
     </div>
+
+    <script>
+      const toggleBtn = document.getElementById('toggle-note-form-btn');
+      const noteForm = document.getElementById('add-note-form');
+
+      toggleBtn.addEventListener('click', () => {
+        const isHidden = noteForm.style.display === 'none';
+        noteForm.style.display = isHidden ? 'block' : 'none';
+        toggleBtn.textContent = isHidden ? 'Cancel' : '+ Add Note';
+      });
+    </script>
   </body>
 </html>

@@ -12,7 +12,9 @@ router.get('/:bookId',isSignedIn,bookCtrl.show);//show book details
 router.get('/:bookId/edit',isSignedIn,bookCtrl.edit);//render edit from
 router.put('/:bookId',isSignedIn,bookCtrl.update);//update book
 router.delete('/:bookId',isSignedIn,bookCtrl.delete);//deleting book
-
+router.post('/:bookId/notes', isSignedIn, bookCtrl.createNote);
+router.delete('/:bookId/notes/:noteId', isSignedIn, bookCtrl.deleteNote);
+router.put('/:bookId/favorite', isSignedIn, bookCtrl.toggleFav);
 
 
 
