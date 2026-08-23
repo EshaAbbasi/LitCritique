@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- views/book/show.ejs -->
+    <link rel="stylesheet" href="/stylesheets/show.css" />
+    <title><%= book.title %></title>
+  </head>
+
+  <body>
+    <%- include('../partials/_navbar.ejs') %>
+    <div class="show-body">
+      <div class="show-header">
+        <% if (book.coverImage) { %>
+        <img src="<%= book.coverImage %>" alt="<%= book.title %> cover" class="show-cover" />
+        <% } %>
+        <h1><%= book.title %> by <%= book.author %></h1>
+
+        <% if (book.genre) { %>
+        <p>Genre: <%= book.genre %></p>
+        <% } %>
+
+        <% if (book.status) { %>
+        <p>Status: <%= book.status %></p>
+        <% } %>
+
+        <% if (book.rating) { %>
+        <p>Rating: <%= book.rating %> / 5</p>
+        <% } %>
+
+        <% if (book.fav) { %>
+        <p>Favorite: <%= book.fav %></p>
+        <% } %>
+
+        <div class="show-sidebar">
+          <div class="show-actions">
+            <a href="/books/<%= book._id %>/edit">Edit Book</a>
+            <form action="/books/<%= book._id %>?_method=DELETE" method="POST">
+              <button type="submit">Delete Book</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="show-notes-container">
+        <% if (book.reviewtext) { %>
+        <div class="show-notes">
+          <h2>Review:</h2>
+          <p><%= book.reviewtext %></p>
+        </div>
+        <% } %>
+      </div>
+    </div>
+  </body>
+</html>
