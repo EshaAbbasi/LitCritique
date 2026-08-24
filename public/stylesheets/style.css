@@ -1,4 +1,3 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Playwrite+VN:wght@100..400&family=Source+Sans+3:wght@400;600;700&display=swap');
 
 * {
@@ -12,17 +11,15 @@ body {
   overflow-x: hidden;
 }
 
+/* --- HOME PAGE STYLES --- */
 .home {
   min-height: 100vh;
   width: 100%;
   background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
-              url('/assets/bg.png') center center / cover no-repeat;
-
-
+              url('/assets/bg2.jpg') center center / cover no-repeat;
   display: flex;
   justify-content: center;
   align-items: center;
-
   text-align: center;
 }
 
@@ -31,7 +28,6 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 35px;
-
   padding: 40px 20px;
 }
 
@@ -55,36 +51,164 @@ body {
 .buttons {
   display: flex;
   gap: 20px;
+  margin-left: 20px; /* Shifts the single Get Started button slightly right */
 }
 
+/* Unified Button Style */
 .btn {
   min-width: 130px;
   padding: 10px 24px;
-
   border: 2px solid #493939;
   border-radius: 12px;
-
   color: #493939;
   text-decoration: none;
   font-size: 1.1rem;
   font-weight: 700;
-
   box-shadow: 4px 4px 0 #493939;
-
   transition: 0.2s ease;
+  cursor: pointer;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.login {
+.login, .btn-primary {
   background: #f7ec77;
 }
 
-.register {
+.register, .btn-secondary {
   background: #da5151;
+  color: #ffffff;
 }
 
 .btn:hover {
   transform: translate(2px, 2px);
   box-shadow: 2px 2px 0 #493939;
+}
+
+/* --- SPLIT AUTH PAGE LAYOUT --- */
+.auth-body {
+  min-height: 100vh;
+  width: 100%;
+  /* Dark overlay over your background image */
+  background: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)), 
+              url('/assets/bg6.jfif') center center / cover no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+.split-card {
+  width: 100%;
+  max-width: 900px;
+  min-height: 520px;
+  background-color: #ffffff;
+  border: 2px solid #493939;
+  border-radius: 20px;
+  display: flex;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.split-left {
+  flex: 1;
+  padding: 40px 45px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Lit Critique Title matching the home page font and color */
+.brand-logo {
+  font-family: 'Playwrite VN', cursive;
+  font-size: 2rem;
+  color: #f7ec77;
+  text-shadow: 2px 2px 0 #493939;
+  font-weight: 400;
+  margin-bottom: 10px;
+}
+
+.welcome-header h1 {
+  font-size: 2.2rem;
+  color: #493939;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.welcome-header p {
+  color: #666666;
+  font-size: 0.95rem;
+}
+
+.split-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 20px 0;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-size: 0.85rem;
+  color: #493939;
+  font-weight: 600;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  outline: none;
+  background-color: #ffffff;
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus {
+  border-color: #493939;
+}
+
+.form-actions {
+  display: flex;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.form-actions .btn {
+  flex: 1;
+}
+
+.form-footer {
+  font-size: 0.75rem;
+  color: #888888;
+  line-height: 1.4;
+}
+
+.split-right {
+  flex: 1;
+  background: url('/assets/book.jfif') center center / cover no-repeat;
+  display: block;
+}
+
+/* --- RESPONSIVE MEDIA QUERIES --- */
+@media (max-width: 768px) {
+  .split-card {
+    flex-direction: column;
+  }
+  
+  .split-right {
+    min-height: 200px;
+  }
+  
+  .split-left {
+    padding: 30px 20px;
+  }
 }
 
 @media (max-width: 600px) {
@@ -102,6 +226,7 @@ body {
 
   .buttons {
     gap: 12px;
+    margin-left: 0;
   }
 
   .btn {
@@ -121,4 +246,3 @@ body {
     width: 100%;
   }
 }
-
