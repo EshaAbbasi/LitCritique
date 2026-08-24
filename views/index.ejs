@@ -1,21 +1,27 @@
+
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/stylesheets/style.css" />
-    <link rel="stylesheet" href="/stylesheets/partials.css" />
-    <title>Home Page</title>
-  </head>
-  <body>
-     <%- include('./partials/_navbar.ejs') %>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/stylesheets/style.css">
+   <link rel="stylesheet" href="/stylesheets/partials.css">
+  <title>LitCritique</title>
+</head>
 
-    <% if(user){ %>
-      <h1>Welcome to the app, <%= user.username %>!</h1>
-    <% }else{ %>
-      <h1>Welcome to the app!</h1>
-    <%}%>
+<body>
+  <main class="home">
+    <div class="home-content">
+      <h1>LitCritique</h1>
 
-    <%- include('./partials/_footer.ejs') %>
-  </body>
+      <p>"Raw. Honest.<br>Book Reviews"</p>
+
+      <div class="buttons">
+        <a href="/auth/sign-in" class="btn login">Login</a>
+        <a href="/auth/sign-up" class="btn register">Register</a>
+      </div>
+    </div>
+  </main>
+</body>
 </html>
+
