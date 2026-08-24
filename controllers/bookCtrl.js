@@ -5,7 +5,7 @@ const index = async (req, res) => {
   try {
     const filter = {};
     if (req.query.fav === 'true') {
-      filter.fav = true;
+      filter.favoritedBy = req.session.user._id;
     }
     const books = await Book.find(filter).populate('user', 'username');
     res.render('book/index.ejs', { books, currentUser: req.session.user });
@@ -14,7 +14,6 @@ const index = async (req, res) => {
     res.redirect('/');
   }
 };
-
 const newApp = async (req, res) => {
   try {
     res.render('book/new.ejs');
@@ -124,7 +123,15 @@ const toggleFav = async (req, res) => {
     const book = await Book.findById(req.params.bookId);
     if (!book) return res.redirect('/books');
 
-    book.fav = !book.fav;
+    const userId = req.session.user._id;
+    const alreadyFav = book.favoritedBy.some(id => id.toString() === userId);
+
+    if (alreadyFav) {
+      book.favoritedBy = book.favoritedBy.filter(id => id.toString() !== userId);
+    } else {
+      book.favoritedBy.push(userId);
+    }
+
     await book.save();
     res.redirect(`/books/${req.params.bookId}`);
   } catch (err) {

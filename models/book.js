@@ -54,10 +54,12 @@ rating:{
 reviewtext:{
     type:String
 },
-fav: {
-  type: Boolean,
-  default: false,
-},
+favoritedBy: [
+  {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+  },
+],
 coverImage:{
     type:String},
 notes:[noteSchema],

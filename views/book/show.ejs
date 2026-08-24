@@ -29,12 +29,12 @@
         <p>Rating: <%= book.rating %> / 5</p>
         <% } %>
 
-        <form action="/books/<%= book._id %>/favorite?_method=PUT" method="POST" class="fav-form">
-          <button type="submit">
-            <%= book.fav ? '⭐ Favorited' : '☆ Add to Favorites' %>
-          </button>
-        </form>
-
+      <% const isFav = book.favoritedBy && book.favoritedBy.some(id => id.toString() === currentUser._id.toString()); %>
+<form action="/books/<%= book._id %>/favorite?_method=PUT" method="POST" class="fav-form">
+  <button type="submit">
+    <%= isFav ? '⭐ Favorited' : '☆ Add to Favorites' %>
+  </button>
+</form>
         <div class="show-sidebar">
           <% if (book.user && book.user._id.toString() === currentUser._id.toString()) { %>
           <div class="show-actions">
