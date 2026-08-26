@@ -1103,3 +1103,30 @@ body {
     grid-template-columns: 1fr;
   }
 }
+/* Single centered button variant */
+.form-actions-single {
+  justify-content: center;
+}
+
+.btn-block {
+  width: 100%;
+  flex: none;
+}
+
+/* Centered footer text under the form */
+.form-footer-center {
+  text-align: center;
+  margin-top: 16px;
+  font-size: 0.85rem;
+  color: #666666;
+}
+
+.link-inline {
+  color: #2e7dff;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.link-inline:hover {
+  text-decoration: underline;
+}

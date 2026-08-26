@@ -12,14 +12,8 @@
   <body>
     <%- include('../partials/_navbar.ejs') %>
 
-    <div class="index-header">
-      <h1>All Books</h1>
-      <div class="index-actions">
-        <a href="/">Home</a>
-        <a href="/books/new">Add New Book</a>
-        <a href="/books?fav=true">Favourites</a>
-      </div>
-    </div>
+  
+   
 
     <div class="book-list">
       <% if (books.length === 0) { %>
