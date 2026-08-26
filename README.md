@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/logo.png" alt="LitCritique Logo" width="180" />
+  <img src="assets/logo.PNG" alt="LitCritique Logo" width="180" />
 </p>
 
 <h1 align="center">📚 LitCritique — Book Review App</h1>
@@ -18,16 +18,16 @@
 
 **LitCritique** is a full-stack book review platform built on the **MEN stack** (MongoDB, Express.js, Node.js) with server-rendered EJS views. It gives readers a personal, social space to log in, add their own book reviews, browse what everyone else is reading, and leave short reading notes on any book at any page.
 
-The idea behind LitCritique is simple: reviews shouldn't just be a star rating and a paragraph — they should feel alive. That's why, beyond the standard **Create, Read, Update, and Delete (CRUD)** functionality for books, the app also supports:
+The idea behind LitCritique is simple: reviews shouldn't just be a star rating and a paragraph they should feel alive. That's why, beyond the standard **Create, Read, Update, and Delete (CRUD)** functionality for books, the app also supports:
 
-- 📝 **Adding a full book review** — title, author, genre, status, cover image, and personal thoughts.
-- ✏️ **Editing and deleting your own reviews** — you stay fully in control of the content you post; no one else can touch it.
-- ⭐ **Favoriting books** — save the books you love (or want to remember) to your own personal favorites list for quick access later.
-- 🔍 **Searching and filtering** — find books instantly by title, author, genre, or reading status using a dedicated search page.
-- 💬 **Reading notes** — any logged-in user can drop a quick note on any book (e.g. "This twist on page 120 changed everything!"), and can delete only the notes they personally wrote.
-- 🔐 **Authentication** — secure sign up, login, and logout so every review, favorite, and note is tied to the right user.
+- 📝 **Adding a full book review** title, author, genre, status, cover image, and personal thoughts.
+- ✏️ **Editing and deleting your own reviews** you stay fully in control of the content you post; no one else can touch it.
+- ⭐ **Favoriting books** save the books you love (or want to remember) to your own personal favorites list for quick access later.
+- 🔍 **Searching and filtering** find books instantly by title, author, genre, or reading status using a dedicated search page.
+- 💬 **Reading notes**  any logged-in user can drop a quick note on any book (e.g. "This twist on page 120 changed everything!"), and can delete only the notes they personally wrote.
+- 🔐 **Authentication**  secure sign up, login, and logout so every review, favorite, and note is tied to the right user.
 
-Every book cover image is uploaded and served through **Cloudinary**, so the app stays fast and images are optimized automatically regardless of the original upload size. The interface is styled with custom CSS paired with **Google Fonts** for clean, readable typography throughout the site — from the landing page to the book detail view.
+Every book cover image is uploaded and served through **Cloudinary**, so the app stays fast and images are optimized automatically regardless of the original upload size. The interface is styled with custom CSS paired with **Google Fonts** for clean, readable typography throughout the site  from the landing page to the book detail view.
 
 The app is fully deployed and hosted live on **Render**, so it's accessible from anywhere without any local setup.
 
