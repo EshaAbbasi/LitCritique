@@ -39,9 +39,10 @@ const index = async (req, res) => {
     res.redirect('/');
   }
 };
+
 const newApp = async (req, res) => {
   try {
-    res.render('book/new.ejs');
+    res.render('book/new.ejs', { error: null, formData: {} });
   } catch (err) {
     console.log(err);
     res.redirect('/');
@@ -50,7 +51,20 @@ const newApp = async (req, res) => {
 
 const create = async (req, res) => {
   try {
-     if (req.file) {
+    // Check for an existing book with the same title + author (case-insensitive)
+    const existing = await Book.findOne({
+      title: new RegExp(`^${escapeRegex(req.body.title)}$`, 'i'),
+      author: new RegExp(`^${escapeRegex(req.body.author || '')}$`, 'i'),
+    });
+
+    if (existing) {
+      return res.render('book/new.ejs', {
+        error: 'This book already exists in the system.',
+        formData: req.body,
+      });
+    }
+
+    if (req.file) {
       req.body.coverImage = await uploadBufferToCloudinary(req.file.buffer);
     }
 
@@ -60,13 +74,18 @@ const create = async (req, res) => {
     res.redirect('/books');
   } catch (err) {
     console.log(err);
-    res.redirect('/books/new');
+    res.render('book/new.ejs', {
+      error: 'Something went wrong adding this book. Please try again.',
+      formData: req.body,
+    });
   }
 };
 
 const show = async (req, res) => {
   try {
-    const book = await Book.findById(req.params.bookId).populate('user');
+    const book = await Book.findById(req.params.bookId)
+      .populate('user')
+      .populate('notes.user');
     if (!book) return res.redirect('/books');
     res.render('book/show.ejs', { book, currentUser: req.session.user });
   } catch (err) {
@@ -126,6 +145,29 @@ const createNote = async (req, res) => {
   }
 };
 
+const updateNote = async (req, res) => {
+  try {
+    const book = await Book.findById(req.params.bookId);
+    if (!book) return res.redirect('/books');
+
+    const note = book.notes.id(req.params.noteId);
+    if (!note) return res.redirect(`/books/${req.params.bookId}`);
+
+    // owner-only check (note.user is a raw ObjectId here since we didn't populate)
+    if (note.user.toString() !== req.session.user._id) {
+      return res.redirect(`/books/${req.params.bookId}`);
+    }
+
+    note.text = req.body.text;
+    note.page = req.body.page;
+    await book.save();
+    res.redirect(`/books/${req.params.bookId}`);
+  } catch (err) {
+    console.log(err);
+    res.redirect(`/books/${req.params.bookId}`);
+  }
+};
+
 const deleteNote = async (req, res) => {
   try {
     const book = await Book.findById(req.params.bookId);
@@ -139,7 +181,7 @@ const deleteNote = async (req, res) => {
       return res.redirect(`/books/${req.params.bookId}`);
     }
 
-    note.deleteOne(); // removes subdocument from the array
+    note.deleteOne();
     await book.save();
     res.redirect(`/books/${req.params.bookId}`);
   } catch (err) {
@@ -147,6 +189,7 @@ const deleteNote = async (req, res) => {
     res.redirect(`/books/${req.params.bookId}`);
   }
 };
+
 const toggleFav = async (req, res) => {
   try {
     const book = await Book.findById(req.params.bookId);
@@ -168,14 +211,47 @@ const toggleFav = async (req, res) => {
     res.redirect(`/books/${req.params.bookId}`);
   }
 };
+
 const search = async (req, res) => {
   try {
-    res.render('book/search.ejs', { currentUser: req.session.user });
+    const { q, genre, status } = req.query;
+    const filter = {};
+
+    if (q) {
+      filter.$or = [
+        { title: { $regex: q, $options: 'i' } },
+        { author: { $regex: q, $options: 'i' } },
+      ];
+    }
+
+    if (genre) {
+      filter.genre = genre;
+    }
+
+    if (status) {
+      filter.status = status;
+    }
+
+    const books = await Book.find(filter).populate('user');
+
+    res.render('book/search.ejs', {
+      currentUser: req.session.user,
+      books,
+      q,
+      genre,
+      status,
+    });
   } catch (err) {
     console.log(err);
     res.redirect('/books');
   }
 };
+
+// Escapes regex special characters so titles/authors with symbols (e.g. "Book: Part 2")
+// don't break the duplicate-check query or throw a regex error
+function escapeRegex(str) {
+  return String(str).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
 
 module.exports = {
   index,
@@ -186,6 +262,7 @@ module.exports = {
   update,
   delete: deleteBook,
   createNote,
+  updateNote,
   deleteNote,
   toggleFav,
   search,

@@ -11,32 +11,63 @@
   <%- include('../partials/_navbar.ejs') %>
 
   <div class="search-page">
-    <h1>Search Books</h1>
+    <form action="/books/search" method="GET" class="search-form" id="searchForm">
+      <div class="search-form-field search-form-field-text">
+        <label for="q">Title or Author</label>
+        <input type="text" id="q" name="q" placeholder="e.g. Tolkien or Hobbit" value="<%= typeof q !== 'undefined' ? q : '' %>" />
+      </div>
 
-      <form action="/books" method="GET" class="search-form" id="searchForm">
-    <label for="q">Title or Author</label>
-    <input type="text" id="q" name="q" placeholder="e.g. Tolkien or Hobbit" />
+      <div class="search-form-field">
+        <label for="genre">Genre</label>
+        <select id="genre" name="genre">
+          <option value="">Any Genre</option>
+          <% ["Fiction","Non-Fiction","Fantasy","Sci-Fi","Mystery","Thriller","Romance","Historical Fiction","Horror","Biography","Memoir","Self-Help","Graphic Novel","Manga"].forEach(g => { %>
+          <option value="<%= g %>" <%= (typeof genre !== 'undefined' && genre === g) ? 'selected' : '' %>><%= g %></option>
+          <% }) %>
+        </select>
+      </div>
 
-    <label for="genre">Genre</label>
-    <select id="genre" name="genre">
-      <option value="">Any Genre</option>
-      <% ["Fiction","Non-Fiction","Fantasy","Sci-Fi","Mystery","Thriller","Romance","Historical Fiction","Horror","Biography","Memoir","Self-Help","Graphic Novel","Manga"].forEach(g => { %>
-      <option value="<%= g %>"><%= g %></option>
+      <div class="search-form-field">
+        <label for="status">Status</label>
+        <select id="status" name="status">
+          <option value="">Any Status</option>
+          <option value="wanttoread" <%= (typeof status !== 'undefined' && status === 'wanttoread') ? 'selected' : '' %>>Want to Read</option>
+          <option value="reading" <%= (typeof status !== 'undefined' && status === 'reading') ? 'selected' : '' %>>Reading</option>
+          <option value="finished" <%= (typeof status !== 'undefined' && status === 'finished') ? 'selected' : '' %>>Finished</option>
+        </select>
+      </div>
+
+      <button type="submit" class="btn btn-primary search-btn">Search</button>
+    </form>
+
+    <p id="searchError" style="color: #da5151; display: none; padding: 0 32px;">Please fill in at least one field.</p>
+
+     <% if (typeof books !== 'undefined') { %>
+  <% if (books.length === 0) { %>
+    <div class="no-results">
+      <p>No books matched your search.</p>
+      <a href="/books/new" class="btn btn-primary add-book-btn">+ Add a Book</a>
+    </div>
+  <% } else { %>
+    <div class="book-list">
+      <% books.forEach(book => { %>
+        <a href="/books/<%= book._id %>" class="book-card">
+          <div class="book-cover-link">
+            <% if (book.coverImage) { %>
+              <img src="<%= book.coverImage %>" alt="<%= book.title %> cover" class="book-cover" />
+            <% } else { %>
+              <div class="book-cover-placeholder" style="width:100%; height:100%;">No Cover</div>
+            <% } %>
+          </div>
+          <div class="book-info">
+            <p class="book-title"><%= book.title %></p>
+            <p class="book-author">by <%= book.author %></p>
+          </div>
+        </a>
       <% }) %>
-    </select>
-
-    <label for="status">Status</label>
-    <select id="status" name="status">
-      <option value="">Any Status</option>
-      <option value="wanttoread">Want to Read</option>
-      <option value="reading">Reading</option>
-      <option value="finished">Finished</option>
-    </select>
-
-    <p id="searchError" style="color: red; display: none;">Please fill in at least one field.</p>
-
-    <button type="submit">Search</button>
-  </form>
+    </div>
+  <% } %>
+<% } %>
 
   <script>
     document.getElementById('searchForm').addEventListener('submit', (e) => {
@@ -53,6 +84,5 @@
       }
     });
   </script>
-  </div>
 </body>
 </html>

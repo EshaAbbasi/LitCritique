@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- views/book/show.ejs -->
     <link rel="stylesheet" href="/stylesheets/style.css" />
-     <link rel="stylesheet" href="/stylesheets/partials.css">
+    <link rel="stylesheet" href="/stylesheets/partials.css">
 
     <title><%= book.title %></title>
   </head>
@@ -77,7 +77,7 @@
 
       <div class="show-notes-container">
         <div class="notes-header">
-          <h2>Notes</h2>
+          <h2>Notes / Reviews</h2>
           <button type="button" id="toggle-note-form-btn" class="btn btn-primary btn-sm">+ Add Note</button>
         </div>
 
@@ -104,24 +104,64 @@
         <% if (book.notes && book.notes.length) { %>
         <ul class="notes-list">
           <% book.notes.forEach(note => { %>
+          <% const noteOwnerId = note.user && note.user._id ? note.user._id.toString() : (note.user ? note.user.toString() : ''); %>
+          <% const isNoteOwner = currentUser && noteOwnerId === currentUser._id.toString(); %>
           <li class="note-card">
-            <p class="note-text"><%= note.text %></p>
-            <div class="note-footer">
-              <% if (note.page) { %>
-              <span class="note-page">Page <%= note.page %></span>
-              <% } %>
-              <small class="note-date"><%= note.createdAt.toLocaleDateString() %></small>
+            <p class="note-author">
+              <strong><%= note.user && note.user.username ? note.user.username : 'Unknown' %></strong>
+            </p>
 
-              <% if (note.user.toString() === currentUser._id.toString()) { %>
-              <form
-                action="/books/<%= book._id %>/notes/<%= note._id %>?_method=DELETE"
-                method="POST"
-                class="inline-form"
-              >
-                <button type="submit" class="note-delete-btn" aria-label="Delete note">🗑</button>
-              </form>
-              <% } %>
+            <!-- Read-only view -->
+            <div class="note-view" id="note-view-<%= note._id %>">
+              <p class="note-text"><%= note.text %></p>
+              <div class="note-footer">
+                <% if (note.page) { %>
+                <span class="note-page">Page <%= note.page %></span>
+                <% } %>
+                <small class="note-date"><%= note.createdAt.toLocaleDateString() %></small>
+
+                <% if (isNoteOwner) { %>
+                <button
+                  type="button"
+                  class="note-edit-btn"
+                  aria-label="Edit note"
+                  onclick="toggleNoteEdit('<%= note._id %>')"
+                >✏️</button>
+
+                <form
+                  action="/books/<%= book._id %>/notes/<%= note._id %>?_method=DELETE"
+                  method="POST"
+                  class="inline-form"
+                >
+                  <button type="submit" class="note-delete-btn" aria-label="Delete note">🗑</button>
+                </form>
+                <% } %>
+              </div>
             </div>
+
+            <!-- Edit form, hidden by default, owner-only -->
+            <% if (isNoteOwner) { %>
+            <form
+              action="/books/<%= book._id %>/notes/<%= note._id %>?_method=PUT"
+              method="POST"
+              class="note-form note-edit-form"
+              id="note-edit-form-<%= note._id %>"
+              style="display: none;"
+            >
+              <div class="note-form-field note-form-field-text">
+                <label for="text-<%= note._id %>">Note</label>
+                <textarea name="text" id="text-<%= note._id %>" required><%= note.text %></textarea>
+              </div>
+
+              <div class="note-form-field note-form-field-page">
+                <label for="page-<%= note._id %>">Page (optional)</label>
+                <input type="number" name="page" id="page-<%= note._id %>" value="<%= note.page || '' %>" />
+              </div>
+
+              <button type="submit" class="btn btn-primary btn-sm">Save Changes</button>
+              <button type="button" class="btn btn-secondary btn-sm" onclick="toggleNoteEdit('<%= note._id %>')">Cancel</button>
+            </form>
+            <% } %>
           </li>
           <% }) %>
         </ul>
@@ -140,6 +180,15 @@
         noteForm.style.display = isHidden ? 'block' : 'none';
         toggleBtn.textContent = isHidden ? 'Cancel' : '+ Add Note';
       });
+
+      function toggleNoteEdit(noteId) {
+        const viewEl = document.getElementById(`note-view-${noteId}`);
+        const editEl = document.getElementById(`note-edit-form-${noteId}`);
+        const isEditing = editEl.style.display !== 'none';
+
+        editEl.style.display = isEditing ? 'none' : 'block';
+        viewEl.style.display = isEditing ? 'block' : 'none';
+      }
     </script>
   </body>
 </html>

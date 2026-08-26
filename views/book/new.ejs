@@ -20,60 +20,68 @@
         <p>Share what you're reading.</p>
       </div>
 
+      <% if (typeof error !== 'undefined' && error) { %>
+        <p class="form-error" style="color:#da5151; margin-bottom: 16px;"><%= error %></p>
+      <% } %>
+
       <form action="/books" method="POST" enctype="multipart/form-data" class="form-grid">
 
         <div class="form-group">
           <label for="title">Title</label>
-          <input type="text" id="title" name="title" placeholder="Enter book title" required />
+          <input
+            type="text"
+            id="title"
+            name="title"
+            placeholder="Enter book title"
+            value="<%= typeof formData !== 'undefined' && formData.title ? formData.title : '' %>"
+            required
+          />
         </div>
 
         <div class="form-group">
           <label for="author">Author</label>
-          <input type="text" id="author" name="author" placeholder="Enter author name" />
+          <input
+            type="text"
+            id="author"
+            name="author"
+            placeholder="Enter author name"
+            value="<%= typeof formData !== 'undefined' && formData.author ? formData.author : '' %>"
+          />
         </div>
 
         <div class="form-group">
           <label for="genre">Genre</label>
           <select id="genre" name="genre">
-            <option value="Fiction">Fiction</option>
-            <option value="Non-Fiction">Non-Fiction</option>
-            <option value="Fantasy">Fantasy</option>
-            <option value="Sci-Fi">Sci-Fi</option>
-            <option value="Mystery">Mystery</option>
-            <option value="Thriller">Thriller</option>
-            <option value="Romance">Romance</option>
-            <option value="Historical Fiction">Historical Fiction</option>
-            <option value="Horror">Horror</option>
-            <option value="Biography">Biography</option>
-            <option value="Memoir">Memoir</option>
-            <option value="Self-Help">Self-Help</option>
-            <option value="Graphic Novel">Graphic Novel</option>
-            <option value="Manga">Manga</option>
+            <% ["Fiction","Non-Fiction","Fantasy","Sci-Fi","Mystery","Thriller","Romance","Historical Fiction","Horror","Biography","Memoir","Self-Help","Graphic Novel","Manga"].forEach(g => { %>
+              <option value="<%= g %>" <%= (typeof formData !== 'undefined' && formData.genre === g) ? 'selected' : '' %>><%= g %></option>
+            <% }) %>
           </select>
         </div>
 
         <div class="form-group">
           <label for="status">Status</label>
           <select id="status" name="status">
-            <option value="wanttoread">Want to Read</option>
-            <option value="reading">Reading</option>
-            <option value="finished">Finished</option>
+            <option value="wanttoread" <%= (typeof formData !== 'undefined' && formData.status === 'wanttoread') ? 'selected' : '' %>>Want to Read</option>
+            <option value="reading" <%= (typeof formData !== 'undefined' && formData.status === 'reading') ? 'selected' : '' %>>Reading</option>
+            <option value="finished" <%= (typeof formData !== 'undefined' && formData.status === 'finished') ? 'selected' : '' %>>Finished</option>
           </select>
         </div>
 
         <div class="form-group">
           <label for="rating">Rating (1-5)</label>
-          <input type="number" name="rating" id="rating" min="1" max="5" />
+          <input
+            type="number"
+            name="rating"
+            id="rating"
+            min="1"
+            max="5"
+            value="<%= typeof formData !== 'undefined' && formData.rating ? formData.rating : '' %>"
+          />
         </div>
 
         <div class="form-group">
           <label for="coverImage">Cover Image</label>
           <input type="file" id="coverImage" name="coverImage" accept="image/*" />
-        </div>
-
-        <div class="form-group form-group-full">
-          <label for="reviewtext">Review</label>
-          <input type="text" name="reviewtext" id="reviewtext" placeholder="Your thoughts on the book" />
         </div>
 
         <div class="form-actions form-group-full">
