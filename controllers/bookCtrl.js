@@ -35,7 +35,6 @@ const index = async (req, res) => {
       query: { q: q || '', status: status || '', genre: genre || '' },
     });
   } catch (err) {
-    console.log(err);
     res.redirect('/');
   }
 };
@@ -44,7 +43,6 @@ const newApp = async (req, res) => {
   try {
     res.render('book/new.ejs', { error: null, formData: {} });
   } catch (err) {
-    console.log(err);
     res.redirect('/');
   }
 };
@@ -73,7 +71,6 @@ const create = async (req, res) => {
     await book.save();
     res.redirect('/books');
   } catch (err) {
-    console.log(err);
     res.render('book/new.ejs', {
       error: 'Something went wrong adding this book. Please try again.',
       formData: req.body,
@@ -89,7 +86,6 @@ const show = async (req, res) => {
     if (!book) return res.redirect('/books');
     res.render('book/show.ejs', { book, currentUser: req.session.user });
   } catch (err) {
-    console.log(err);
     res.redirect('/');
   }
 };
@@ -98,9 +94,14 @@ const edit = async (req, res) => {
   try {
     const book = await Book.findById(req.params.bookId);
     if (!book) return res.redirect('/books');
+
+    // Owner-only: block direct URL access to the edit form for non-owners
+    if (book.user.toString() !== req.session.user._id) {
+      return res.redirect(`/books/${req.params.bookId}`);
+    }
+
     res.render('book/edit.ejs', { book });
   } catch (err) {
-    console.log(err);
     res.redirect('/');
   }
 };
@@ -109,20 +110,32 @@ const update = async (req, res) => {
   try {
     const book = await Book.findById(req.params.bookId);
     if (!book) return res.redirect('/books');
+
+    // Owner-only: block a non-owner from submitting a PUT directly
+    if (book.user.toString() !== req.session.user._id) {
+      return res.redirect(`/books/${req.params.bookId}`);
+    }
+
     await book.updateOne(req.body);
     res.redirect(`/books/${req.params.bookId}`);
   } catch (err) {
-    console.log(err);
     res.redirect(`/books/${req.params.bookId}/edit`);
   }
 };
 
 const deleteBook = async (req, res) => {
   try {
-    await Book.findByIdAndDelete(req.params.bookId);
+    const book = await Book.findById(req.params.bookId);
+    if (!book) return res.redirect('/books');
+
+    // Owner-only: block a non-owner from submitting a DELETE directly
+    if (book.user.toString() !== req.session.user._id) {
+      return res.redirect(`/books/${req.params.bookId}`);
+    }
+
+    await book.deleteOne();
     res.redirect('/books');
   } catch (err) {
-    console.log(err);
     res.redirect('/books');
   }
 };
@@ -140,7 +153,6 @@ const createNote = async (req, res) => {
     await book.save();
     res.redirect(`/books/${req.params.bookId}`);
   } catch (err) {
-    console.log(err);
     res.redirect(`/books/${req.params.bookId}`);
   }
 };
@@ -153,7 +165,7 @@ const updateNote = async (req, res) => {
     const note = book.notes.id(req.params.noteId);
     if (!note) return res.redirect(`/books/${req.params.bookId}`);
 
-    // owner-only check (note.user is a raw ObjectId here since we didn't populate)
+    // owner-only check
     if (note.user.toString() !== req.session.user._id) {
       return res.redirect(`/books/${req.params.bookId}`);
     }
@@ -163,7 +175,6 @@ const updateNote = async (req, res) => {
     await book.save();
     res.redirect(`/books/${req.params.bookId}`);
   } catch (err) {
-    console.log(err);
     res.redirect(`/books/${req.params.bookId}`);
   }
 };
@@ -185,7 +196,6 @@ const deleteNote = async (req, res) => {
     await book.save();
     res.redirect(`/books/${req.params.bookId}`);
   } catch (err) {
-    console.log(err);
     res.redirect(`/books/${req.params.bookId}`);
   }
 };
@@ -207,7 +217,6 @@ const toggleFav = async (req, res) => {
     await book.save();
     res.redirect(`/books/${req.params.bookId}`);
   } catch (err) {
-    console.log(err);
     res.redirect(`/books/${req.params.bookId}`);
   }
 };
@@ -242,7 +251,6 @@ const search = async (req, res) => {
       status,
     });
   } catch (err) {
-    console.log(err);
     res.redirect('/books');
   }
 };
