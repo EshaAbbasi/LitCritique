@@ -1,6 +1,75 @@
-# LitCritique — Book Review App
+<p align="center">
+  <img src="assets/logo.png" alt="LitCritique Logo" width="180" />
+</p>
 
-A full-stack MEN application where users can log in, add book reviews, browse everyone's reviews, and leave reading notes on any book.
+<h1 align="center">📚 LitCritique — Book Review App</h1>
+
+<p align="center">
+  <em>A full-stack MEN (MongoDB, Express, Node.js) application for readers who love to write, share, and discover book reviews.</em>
+</p>
+
+<p align="center">
+  <a href="https://litcritique-g1ho.onrender.com/"><strong>🔗 Live Demo</strong></a>
+</p>
+
+---
+
+## 📖 About the Project
+
+**LitCritique** is a full-stack book review platform built on the **MEN stack** (MongoDB, Express.js, Node.js) with server-rendered EJS views. It gives readers a personal, social space to log in, add their own book reviews, browse what everyone else is reading, and leave short reading notes on any book at any page.
+
+The idea behind LitCritique is simple: reviews shouldn't just be a star rating and a paragraph — they should feel alive. That's why, beyond the standard **Create, Read, Update, and Delete (CRUD)** functionality for books, the app also supports:
+
+- 📝 **Adding a full book review** — title, author, genre, status, cover image, and personal thoughts.
+- ✏️ **Editing and deleting your own reviews** — you stay fully in control of the content you post; no one else can touch it.
+- ⭐ **Favoriting books** — save the books you love (or want to remember) to your own personal favorites list for quick access later.
+- 🔍 **Searching and filtering** — find books instantly by title, author, genre, or reading status using a dedicated search page.
+- 💬 **Reading notes** — any logged-in user can drop a quick note on any book (e.g. "This twist on page 120 changed everything!"), and can delete only the notes they personally wrote.
+- 🔐 **Authentication** — secure sign up, login, and logout so every review, favorite, and note is tied to the right user.
+
+Every book cover image is uploaded and served through **Cloudinary**, so the app stays fast and images are optimized automatically regardless of the original upload size. The interface is styled with custom CSS paired with **Google Fonts** for clean, readable typography throughout the site — from the landing page to the book detail view.
+
+The app is fully deployed and hosted live on **Render**, so it's accessible from anywhere without any local setup.
+
+---
+
+## 🌐 Live Deployment
+
+🔗 **Live site:** [https://litcritique-g1ho.onrender.com/](https://litcritique-g1ho.onrender.com/)
+
+📁 **GitHub repo:** [https://github.com/EshaAbbasi/LitCritique](https://github.com/EshaAbbasi/LitCritique.git)
+
+The app is deployed and hosted live on **[Render](https://render.com)**, connected directly to this GitHub repository for continuous deployment — every push to the main branch automatically redeploys the latest version of the site.
+
+---
+
+## 🛠️ Tech Stack
+
+### Backend
+- **Node.js** — JavaScript runtime powering the server
+- **Express.js** — web framework handling routing, middleware, and controllers
+- **MongoDB** — NoSQL database storing users, books, and embedded notes
+- **Mongoose** — ODM used to model data and enforce schema structure/validation
+
+### Frontend / Views
+- **EJS (Embedded JavaScript)** — server-rendered templating engine for all views
+- **CSS** — custom styling for a clean, book-shelf inspired layout
+- **Google Fonts** — used throughout the app for consistent, readable typography
+
+### Authentication & Session
+- **bcrypt** — password hashing for secure user credentials
+- **express-session** — session-based authentication so users stay logged in
+- **Middleware guards** — protect routes so only logged-in users can add/edit/delete content, and only owners can edit/delete their own books and notes
+
+### Media & Storage
+- **Cloudinary** — cloud-based image hosting and optimization for all uploaded book cover images
+- **Multer** (with `multer-storage-cloudinary`) — handles image upload from forms and streams them directly to Cloudinary
+
+### Deployment & Tools
+- **Render** — cloud hosting platform used for live deployment of the app
+- **MongoDB Atlas** — cloud-hosted database used in production
+- **dotenv** — environment variable management for API keys and database URIs
+- **Git & GitHub** — version control and source hosting
 
 ---
 
@@ -12,6 +81,7 @@ A full-stack MEN application where users can log in, add book reviews, browse ev
 - As a **logged-in user**, I want to search/filter books by title, author, genre, or status so that I can quickly find the review I'm looking for.
 - As a **logged-in user**, I want to add a new book review, including a cover image, so that I can share my thoughts.
 - As a **logged-in user**, I want to edit or delete only my own book reviews so that I stay in control of my own content.
+- As a **logged-in user**, I want to favorite books so that I can build my own personal reading list.
 - As a **logged-in user**, I want to add a reading note to any book so that I can share a thought at a specific page.
 - As a **logged-in user**, I want to delete only the notes I personally wrote so that others' notes stay intact.
 - As a **logged-in user**, I want to log out so that my session ends securely.
@@ -78,3 +148,19 @@ Pages included:
 | DELETE | `/books/:bookId/notes/:noteId` | delete | Delete a note (author only) |
 
 ---
+
+## 🔮 Future Enhancements
+
+- Star-rating system with average review scores per book
+- Comment threads on individual reading notes
+- Public reading profiles for each user
+- Genre-based recommendation engine
+- Dark mode toggle
+
+---
+
+## 👤 Author
+
+Built with ☕ and a lot of late-night reading by **[Esha Ashfar]**.
+
+- GitHub: [@EshaAbbasi](https://github.com/EshaAbbasi)

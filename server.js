@@ -63,6 +63,6 @@ app.get('/protected', async (req, res) => {
   res.send(`You are logged in as ${req.session.user.username}`);
 });
 
-app.listen(port, () => {
+app.listen(port,'0.0.0.0', () => {
   console.log(`The express app is ready on port ${port}!`);
 });
