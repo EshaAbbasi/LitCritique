@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/stylesheets/style.css">
-   <link rel="stylesheet" href="/stylesheets/partials.css">
+    <link rel="stylesheet" href="/stylesheets/partials.css">
 
     <title>All Books</title>
   </head>
@@ -17,32 +17,39 @@
       <div class="index-actions">
         <a href="/">Home</a>
         <a href="/books/new">Add New Book</a>
-          <a href="/books?fav=true">Favourites</a>
+        <a href="/books?fav=true">Favourites</a>
       </div>
     </div>
 
     <div class="book-list">
-      <% books.forEach(book => { %>
-      <div class="book-card">
-        <a href="/books/<%= book._id %>">
-          <h3><%= book.title %></h3>
+      <% if (books.length === 0) { %>
+        <p class="no-results">No books found.</p>
+      <% } else { %>
+        <% books.forEach(book => { %>
+        <a href="/books/<%= book._id %>" class="book-card">
+          <div class="book-cover-link">
+            <% if (book.coverImage) { %>
+            <img src="<%= book.coverImage %>" alt="<%= book.title %> cover" class="book-cover" />
+            <% } else { %>
+            <div class="book-cover book-cover-placeholder">No Cover</div>
+            <% } %>
+          </div>
+
+          <div class="book-info">
+            <h3 class="book-title"><%= book.title %></h3>
+            <p class="book-author">by <%= book.author %></p>
+
+            <% if (book.rating) { %>
+            <div class="book-rating">
+              <% for (let i = 1; i <= 5; i++) { %>
+              <span class="star <%= i <= book.rating ? 'filled' : '' %>">★</span>
+              <% } %>
+            </div>
+            <% } %>
+          </div>
         </a>
-        <p>by <%= book.author %></p>
-        <p>Owner: <%= book.user ? book.user.username : 'Unknown' %></p>
-
-<% if (book.favoritedBy && currentUser && book.favoritedBy.some(id => id.toString() === currentUser._id.toString())) { %>
-<p>⭐ Favorite</p>
-<% } %>
-
-        <div class="book-card-actions">
-          <a href="/books/<%= book._id %>">View Details</a>
-
-          <% if (book.user && currentUser && book.user._id.toString() === currentUser._id.toString()) { %>
-          <a href="/books/<%= book._id %>/edit">Edit</a>
-          <% } %>
-        </div>
-      </div>
-      <% }) %>
+        <% }) %>
+      <% } %>
     </div>
   </body>
 </html>

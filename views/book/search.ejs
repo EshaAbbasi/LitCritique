@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/stylesheets/style.css">
+  <link rel="stylesheet" href="/stylesheets/partials.css">
+  <title>Search Books</title>
+</head>
+<body>
+  <%- include('../partials/_navbar.ejs') %>
+
+  <div class="search-page">
+    <h1>Search Books</h1>
+
+      <form action="/books" method="GET" class="search-form" id="searchForm">
+    <label for="q">Title or Author</label>
+    <input type="text" id="q" name="q" placeholder="e.g. Tolkien or Hobbit" />
+
+    <label for="genre">Genre</label>
+    <select id="genre" name="genre">
+      <option value="">Any Genre</option>
+      <% ["Fiction","Non-Fiction","Fantasy","Sci-Fi","Mystery","Thriller","Romance","Historical Fiction","Horror","Biography","Memoir","Self-Help","Graphic Novel","Manga"].forEach(g => { %>
+      <option value="<%= g %>"><%= g %></option>
+      <% }) %>
+    </select>
+
+    <label for="status">Status</label>
+    <select id="status" name="status">
+      <option value="">Any Status</option>
+      <option value="wanttoread">Want to Read</option>
+      <option value="reading">Reading</option>
+      <option value="finished">Finished</option>
+    </select>
+
+    <p id="searchError" style="color: red; display: none;">Please fill in at least one field.</p>
+
+    <button type="submit">Search</button>
+  </form>
+
+  <script>
+    document.getElementById('searchForm').addEventListener('submit', (e) => {
+      const q = document.getElementById('q').value.trim();
+      const genre = document.getElementById('genre').value;
+      const status = document.getElementById('status').value;
+      const errorMsg = document.getElementById('searchError');
+
+      if (!q && !genre && !status) {
+        e.preventDefault();
+        errorMsg.style.display = 'block';
+      } else {
+        errorMsg.style.display = 'none';
+      }
+    });
+  </script>
+  </div>
+</body>
+</html>

@@ -9,6 +9,7 @@ const bookCtrl = require('../controllers/bookCtrl');
 router.get('/', isSignedIn, bookCtrl.index); // get-it will show all books
 router.get('/new', isSignedIn, bookCtrl.new); // render books
 router.post('/', isSignedIn, upload.single('coverImage'), bookCtrl.create); // create books
+router.get('/search', isSignedIn, bookCtrl.search); // must come before '/:bookId'
 router.get('/:bookId', isSignedIn, bookCtrl.show); // show book details
 router.get('/:bookId/edit', isSignedIn, bookCtrl.edit); // render edit form
 router.put('/:bookId', isSignedIn, upload.single('coverImage'), bookCtrl.update); // update book
