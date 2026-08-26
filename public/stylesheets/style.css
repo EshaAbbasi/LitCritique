@@ -210,6 +210,140 @@ body {
     padding: 30px 20px;
   }
 }
+.book-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 24px;
+  padding: 24px 32px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.book-card {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.book-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.book-cover-link {
+  display: block;
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  overflow: hidden;
+  background: #f0f0f0;
+}
+
+.book-cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.book-info {
+  padding: 10px 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.book-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin: 0;
+  color: #1a1a1a;
+  line-height: 1.3;
+  display: -webkit-box;
+  
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.book-title a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.book-author {
+  font-size: 0.8rem;
+  color: #777;
+  margin: 0;
+}
+
+.book-owner {
+  font-size: 0.75rem;
+  color: #999;
+  margin: 2px 0 0;
+}
+
+.book-rating {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  margin: 2px 0;
+}
+
+.book-rating .star {
+  color: #ddd;
+  font-size: 0.9rem;
+}
+
+.book-rating .star.filled {
+  color: #f5a623;
+}
+
+.rating-number {
+  font-size: 0.75rem;
+  color: #999;
+  margin-left: 4px;
+}
+
+.book-fav {
+  font-size: 0.75rem;
+  color: #f5a623;
+  margin: 2px 0 0;
+}
+
+.book-card-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.book-card-actions a {
+  font-size: 0.75rem;
+  color: #2e7d32;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.book-card-actions a:hover {
+  text-decoration: underline;
+}
+
+.index-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 32px 0;
+}
+
+.index-actions a {
+  margin-left: 16px;
+  text-decoration: none;
+  color: #2e7d32;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
 
 @media (max-width: 600px) {
   .home-content {
@@ -244,5 +378,485 @@ body {
 
   .btn {
     width: 100%;
+  }
+}
+/* --- SHOW / BOOK DETAIL PAGE --- */
+
+.show-page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 16px 20px 30px;
+}
+
+.show-card {
+  display: flex;
+  gap: 20px;
+  background: #ffffff;
+  border: 2px solid #493939;
+  border-radius: 16px;
+  box-shadow: 4px 4px 0 #493939;
+  padding: 18px;
+  margin-bottom: 16px;
+}
+
+/* LEFT: details column */
+.show-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.show-owner {
+  color: #888;
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+/* RIGHT: cover + title/author column */
+.show-cover-col {
+  flex: 0 0 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 4px;
+}
+
+.show-cover {
+  width: 100%;
+  max-width: 150px;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  border-radius: 10px;
+  display: block;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.show-cover-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f0f0f0;
+  color: #999;
+  font-size: 0.9rem;
+}
+
+.show-title {
+  font-size: 1.2rem;
+  color: #493939;
+  font-weight: 700;
+  margin: 4px 0 0;
+}
+
+.show-author {
+  color: #666666;
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+/* Favorite: icon-only heart, sits inline with genre/status pills */
+.fav-form-inline {
+  margin: 0 0 0 auto;
+  display: inline-flex;
+}
+
+.heart-icon-btn {
+  border: 1.5px solid #493939;
+  background: #ffffff;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  font-size: 1rem;
+  line-height: 1;
+  color: #da5151;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.heart-icon-btn:hover {
+  transform: scale(1.08);
+}
+
+.heart-icon-btn.is-fav {
+  background: #da5151;
+  color: #ffffff;
+}
+
+.show-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 0 0 2px;
+}
+
+.meta-pill {
+  background: #f7ec77;
+  color: #493939;
+  border: 1.5px solid #493939;
+  border-radius: 20px;
+  padding: 3px 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.meta-pill.meta-status {
+  background: #ffffff;
+}
+
+.show-rating {
+  margin: 2px 0;
+}
+
+.show-rating .star {
+  font-size: 1rem;
+}
+
+.show-review {
+  margin-top: 6px;
+}
+
+.show-review h2 {
+  font-size: 0.9rem;
+  color: #493939;
+  margin-bottom: 2px;
+}
+
+.show-review p {
+  color: #444;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.show-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: auto;
+  padding-top: 10px;
+}
+
+.inline-form {
+  display: inline;
+}
+
+/* Reuse .btn/.btn-primary/.btn-secondary from style.css.
+   Small variant for note actions: */
+.btn-sm {
+  min-width: unset;
+  padding: 7px 16px;
+  font-size: 0.85rem;
+  box-shadow: 2px 2px 0 #493939;
+}
+
+/* --- NOTES SECTION --- */
+.show-notes-container {
+  background: #ffffff;
+  border: 2px solid #493939;
+  border-radius: 16px;
+  box-shadow: 4px 4px 0 #493939;
+  padding: 16px 20px;
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.notes-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.notes-header h2 {
+  color: #493939;
+  font-size: 1.1rem;
+}
+
+/* Horizontal row: Note field grows, Page field fixed width, Save button at the end.
+   Labels sit above their own field so both fields line up at the same height. */
+.note-form {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  margin-bottom: 14px;
+  padding: 12px 14px;
+  background: #faf9f5;
+  border-radius: 12px;
+  border: 1.5px solid #e2e8f0;
+}
+
+.note-form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.note-form-field-text {
+  flex: 1;
+}
+
+.note-form-field-page {
+  flex: 0 0 120px;
+}
+
+.note-form label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #493939;
+}
+
+.note-form textarea,
+.note-form input {
+  padding: 8px 10px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-family: inherit;
+}
+
+.note-form textarea {
+  resize: vertical;
+  height: 38px;
+  min-height: 38px;
+}
+
+.notes-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.note-card {
+  background: #faf9f5;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 10px 14px;
+}
+
+.note-text {
+  color: #333;
+  margin-bottom: 4px;
+  line-height: 1.4;
+  font-size: 0.9rem;
+}
+
+.note-footer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.note-page {
+  background: #f7ec77;
+  color: #493939;
+  border-radius: 10px;
+  padding: 2px 10px;
+  font-weight: 600;
+}
+
+.note-delete-btn {
+  margin-left: auto;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 1rem;
+  opacity: 0.6;
+}
+
+.note-delete-btn:hover {
+  opacity: 1;
+}
+
+.no-notes {
+  color: #888;
+  font-style: italic;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 700px) {
+  .show-card {
+    flex-direction: column-reverse;
+    align-items: center;
+    text-align: center;
+  }
+
+  .show-info {
+    align-items: center;
+    width: 100%;
+  }
+
+  .show-actions {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .show-cover-col {
+    flex: none;
+  }
+
+  .note-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .note-form-field-page {
+    flex: none;
+  }
+}
+/* --- ADD/EDIT BOOK FORM PAGE --- */
+.form-page-body {
+  min-height: 100vh;
+  width: 100%;
+  background: #f7f3ec;
+}
+
+.form-page {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  /* clears the navbar so the card never sits underneath it */
+  padding: 90px 20px 40px;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.form-card {
+  width: 100%;
+  max-width: 640px;
+  background-color: #ffffff;
+  border: 2px solid #493939;
+  border-radius: 20px;
+  box-shadow: 4px 4px 0 #493939;
+  padding: 28px 34px;
+}
+
+.form-card .brand-logo {
+  font-family: 'Playwrite VN', cursive;
+  font-size: 1.5rem;
+  color: #f7ec77;
+  text-shadow: 2px 2px 0 #493939;
+  font-weight: 400;
+  margin-bottom: 6px;
+}
+
+.form-card .welcome-header h1 {
+  font-size: 1.6rem;
+  color: #493939;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+.form-card .welcome-header p {
+  color: #666666;
+  font-size: 0.85rem;
+  margin-bottom: 14px;
+}
+
+/* Two-column grid so the whole form fits on one screen */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px 20px;
+}
+
+.form-group-full {
+  grid-column: 1 / -1;
+}
+
+.form-grid .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.form-grid label {
+  font-size: 0.82rem;
+  color: #493939;
+  font-weight: 600;
+}
+
+.form-grid input[type="text"],
+.form-grid input[type="number"] {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  outline: none;
+  background-color: #ffffff;
+  transition: border-color 0.2s;
+  font-family: inherit;
+}
+
+.form-grid input[type="text"]:focus,
+.form-grid input[type="number"]:focus {
+  border-color: #493939;
+}
+
+/* Styled dropdowns to match the inputs, with a custom arrow */
+.form-grid select {
+  width: 100%;
+  padding: 10px 36px 10px 12px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-family: inherit;
+  color: #493939;
+  background-color: #ffffff;
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23493939' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 14px;
+  transition: border-color 0.2s;
+}
+
+.form-grid select:focus {
+  border-color: #493939;
+}
+
+/* File input: match the same rounded look */
+.form-grid input[type="file"] {
+  width: 100%;
+  padding: 8px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 0.82rem;
+  background-color: #ffffff;
+  cursor: pointer;
+}
+
+.form-actions {
+  display: flex;
+  gap: 15px;
+  margin-top: 6px;
+}
+
+.form-actions .btn {
+  flex: 1;
+}
+
+@media (max-width: 560px) {
+  .form-page {
+    padding: 80px 12px 30px;
+  }
+
+  .form-card {
+    padding: 22px 18px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
   }
 }

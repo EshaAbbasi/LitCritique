@@ -4,99 +4,130 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- views/book/show.ejs -->
-    <link rel="stylesheet" href="/stylesheets/show.css" />
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+     <link rel="stylesheet" href="/stylesheets/partials.css">
+
     <title><%= book.title %></title>
   </head>
 
   <body>
     <%- include('../partials/_navbar.ejs') %>
-    <div class="show-body">
-      <div class="show-header">
-        <% if (book.coverImage) { %>
-        <img src="<%= book.coverImage %>" alt="<%= book.title %> cover" class="show-cover" />
-        <% } %>
-        <h1><%= book.title %> by <%= book.author %></h1>
 
-        <% if (book.genre) { %>
-        <p>Genre: <%= book.genre %></p>
-        <% } %>
+    <div class="show-page">
+      <div class="show-card">
 
-        <% if (book.status) { %>
-        <p>Status: <%= book.status %></p>
-        <% } %>
+        <!-- LEFT: all the details -->
+        <div class="show-info">
+          <% const isFav = book.favoritedBy && currentUser && book.favoritedBy.some(id => id.toString() === currentUser._id.toString()); %>
+          <div class="show-meta">
+            <% if (book.genre) { %>
+            <span class="meta-pill"><%= book.genre %></span>
+            <% } %>
+            <% if (book.status) { %>
+            <span class="meta-pill meta-status"><%= book.status %></span>
+            <% } %>
+            <form action="/books/<%= book._id %>/favorite?_method=PUT" method="POST" class="fav-form-inline">
+              <button type="submit" class="heart-icon-btn <%= isFav ? 'is-fav' : '' %>" aria-label="Toggle favorite">
+                <%= isFav ? '♥' : '♡' %>
+              </button>
+            </form>
+          </div>
 
-        <% if (book.rating) { %>
-        <p>Rating: <%= book.rating %> / 5</p>
-        <% } %>
+          <p class="show-owner">Posted by <%= book.user ? book.user.username : 'Unknown' %></p>
 
-      <% const isFav = book.favoritedBy && book.favoritedBy.some(id => id.toString() === currentUser._id.toString()); %>
-<form action="/books/<%= book._id %>/favorite?_method=PUT" method="POST" class="fav-form">
-  <button type="submit">
-    <%= isFav ? '⭐ Favorited' : '☆ Add to Favorites' %>
-  </button>
-</form>
-        <div class="show-sidebar">
-          <% if (book.user && book.user._id.toString() === currentUser._id.toString()) { %>
+          <% if (book.rating) { %>
+          <div class="book-rating show-rating">
+            <% for (let i = 1; i <= 5; i++) { %>
+            <span class="star <%= i <= book.rating ? 'filled' : '' %>">★</span>
+            <% } %>
+            <span class="rating-number"><%= book.rating %>/5</span>
+          </div>
+          <% } %>
+
+          <% if (book.reviewtext) { %>
+          <div class="show-review">
+            <h2>Review</h2>
+            <p><%= book.reviewtext %></p>
+          </div>
+          <% } %>
+
+          <% if (book.user && currentUser && book.user._id.toString() === currentUser._id.toString()) { %>
           <div class="show-actions">
-            <a href="/books/<%= book._id %>/edit">Edit Book</a>
-            <form action="/books/<%= book._id %>?_method=DELETE" method="POST">
-              <button type="submit">Delete Book</button>
+            <a href="/books/<%= book._id %>/edit" class="btn btn-primary">Edit Book</a>
+            <form action="/books/<%= book._id %>?_method=DELETE" method="POST" class="inline-form">
+              <button type="submit" class="btn btn-secondary">Delete Book</button>
             </form>
           </div>
           <% } %>
         </div>
+
+        <!-- RIGHT: cover image, then title/author below it -->
+        <div class="show-cover-col">
+          <% if (book.coverImage) { %>
+          <img src="<%= book.coverImage %>" alt="<%= book.title %> cover" class="show-cover" />
+          <% } else { %>
+          <div class="show-cover show-cover-placeholder">No Cover</div>
+          <% } %>
+
+          <h1 class="show-title"><%= book.title %></h1>
+          <p class="show-author">by <%= book.author %></p>
+        </div>
+
       </div>
 
       <div class="show-notes-container">
-        <% if (book.reviewtext) { %>
-        <div class="show-notes">
-          <h2>Review:</h2>
-          <p><%= book.reviewtext %></p>
+        <div class="notes-header">
+          <h2>Notes</h2>
+          <button type="button" id="toggle-note-form-btn" class="btn btn-primary btn-sm">+ Add Note</button>
         </div>
-        <% } %>
-
-        <h2>Notes</h2>
-        <% if (book.notes && book.notes.length) { %>
-        <ul class="notes-list">
-          <% book.notes.forEach(note => { %>
-          <li>
-            <p><%= note.text %></p>
-            <% if (note.page) { %>
-            <p>Page: <%= note.page %></p>
-            <% } %>
-            <small><%= note.createdAt.toLocaleDateString() %></small>
-
-            <% if (note.user.toString() === currentUser._id.toString()) { %>
-            <form
-              action="/books/<%= book._id %>/notes/<%= note._id %>?_method=DELETE"
-              method="POST"
-            >
-              <button type="submit">Delete Note</button>
-            </form>
-            <% } %>
-          </li>
-          <% }) %>
-        </ul>
-        <% } else { %>
-        <p>No notes yet.</p>
-        <% } %>
-
-        <button type="button" id="toggle-note-form-btn">+ Add Note</button>
 
         <form
           action="/books/<%= book._id %>/notes"
           method="POST"
           id="add-note-form"
+          class="note-form"
           style="display: none;"
         >
-          <label for="text">Note</label>
-          <textarea name="text" id="text" required></textarea>
+          <div class="note-form-field note-form-field-text">
+            <label for="text">Note</label>
+            <textarea name="text" id="text" required></textarea>
+          </div>
 
-          <label for="page">Page (optional)</label>
-          <input type="number" name="page" id="page" />
+          <div class="note-form-field note-form-field-page">
+            <label for="page">Page (optional)</label>
+            <input type="number" name="page" id="page" />
+          </div>
 
-          <button type="submit">Save Note</button>
+          <button type="submit" class="btn btn-primary btn-sm">Save Note</button>
         </form>
+
+        <% if (book.notes && book.notes.length) { %>
+        <ul class="notes-list">
+          <% book.notes.forEach(note => { %>
+          <li class="note-card">
+            <p class="note-text"><%= note.text %></p>
+            <div class="note-footer">
+              <% if (note.page) { %>
+              <span class="note-page">Page <%= note.page %></span>
+              <% } %>
+              <small class="note-date"><%= note.createdAt.toLocaleDateString() %></small>
+
+              <% if (note.user.toString() === currentUser._id.toString()) { %>
+              <form
+                action="/books/<%= book._id %>/notes/<%= note._id %>?_method=DELETE"
+                method="POST"
+                class="inline-form"
+              >
+                <button type="submit" class="note-delete-btn" aria-label="Delete note">🗑</button>
+              </form>
+              <% } %>
+            </div>
+          </li>
+          <% }) %>
+        </ul>
+        <% } else { %>
+        <p class="no-notes">No notes yet.</p>
+        <% } %>
       </div>
     </div>
 

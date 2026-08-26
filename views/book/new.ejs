@@ -1,47 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add book</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Add Book - Lit Critique</title>
+  <link rel="stylesheet" href="/stylesheets/style.css" />
+  <link rel="stylesheet" href="/stylesheets/partials.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playwrite+VN:wght@400&family=Source+Sans+3:wght@400;600;700&display=swap" />
 </head>
-<body>
-    <form action="/books" method="post">
-        <label for="title">Title:</label>
-        <input type="text" name="title" id="title"/>
+<body class="form-page-body">
+  <%- include('../partials/_navbar.ejs') %>
 
-        <label for="author">Author:</label>
-        <input type="text" name="author" id="author"/>
+  <div class="form-page">
+    <div class="form-card">
+      <div class="brand-logo">Lit Critique</div>
 
-        <label for="genre">Genre</lable>
-       <select id="genre" name="genre">
-        <option value="Non-Fiction">Non-Fiction</option>
-         <option value="Fantasy">Fantasy</option>
-          <option value="Sci-Fi">Sci-Fi</option>
-           <option value="Mystery">Mystery</option>
+      <div class="welcome-header">
+        <h1>Add a Book</h1>
+        <p>Share what you're reading.</p>
+      </div>
+
+      <form action="/books" method="POST" enctype="multipart/form-data" class="form-grid">
+
+        <div class="form-group">
+          <label for="title">Title</label>
+          <input type="text" id="title" name="title" placeholder="Enter book title" required />
+        </div>
+
+        <div class="form-group">
+          <label for="author">Author</label>
+          <input type="text" id="author" name="author" placeholder="Enter author name" />
+        </div>
+
+        <div class="form-group">
+          <label for="genre">Genre</label>
+          <select id="genre" name="genre">
+            <option value="Fiction">Fiction</option>
+            <option value="Non-Fiction">Non-Fiction</option>
+            <option value="Fantasy">Fantasy</option>
+            <option value="Sci-Fi">Sci-Fi</option>
+            <option value="Mystery">Mystery</option>
             <option value="Thriller">Thriller</option>
-             <option value="Romance">Romance</option>
-       <option value="Horror">Horror</option>
-       </select>
+            <option value="Romance">Romance</option>
+            <option value="Historical Fiction">Historical Fiction</option>
+            <option value="Horror">Horror</option>
+            <option value="Biography">Biography</option>
+            <option value="Memoir">Memoir</option>
+            <option value="Self-Help">Self-Help</option>
+            <option value="Graphic Novel">Graphic Novel</option>
+            <option value="Manga">Manga</option>
+          </select>
+        </div>
 
-        <label for="rating">Rating</label>
-        <input type="number" name="number" id="number"min="1" max="5/>
-        
-        <label for="reviewtext">Review Text</label>
-        <input type="string" name="reviewtext" id="reviewtext"/>
-    <label for="coverImage">Image</label>
-    <input type="coverImage" id="coverImage" name="coverImage"/>
-    
+        <div class="form-group">
+          <label for="status">Status</label>
+          <select id="status" name="status">
+            <option value="wanttoread">Want to Read</option>
+            <option value="reading">Reading</option>
+            <option value="finished">Finished</option>
+          </select>
+        </div>
 
-        
-  <label for="status">Status:</label>
-  <select id="status" name="status">
-    <option value="wanttoread">want to read</option>
-    <option value="finished">Finished</option>
-    <option value="reading">Reading</option>
-   </select>
-<button type="submit">Submit</button>
-    </form>
-    
+        <div class="form-group">
+          <label for="rating">Rating (1-5)</label>
+          <input type="number" name="rating" id="rating" min="1" max="5" />
+        </div>
+
+        <div class="form-group">
+          <label for="coverImage">Cover Image</label>
+          <input type="file" id="coverImage" name="coverImage" accept="image/*" />
+        </div>
+
+        <div class="form-group form-group-full">
+          <label for="reviewtext">Review</label>
+          <input type="text" name="reviewtext" id="reviewtext" placeholder="Your thoughts on the book" />
+        </div>
+
+        <div class="form-actions form-group-full">
+          <button type="submit" class="btn btn-primary">Add Book</button>
+          <a href="/books" class="btn btn-secondary">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
 </body>
 </html>
