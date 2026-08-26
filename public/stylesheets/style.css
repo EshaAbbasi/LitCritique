@@ -860,3 +860,159 @@ body {
     grid-template-columns: 1fr;
   }
 }
+/* --- ADD/EDIT BOOK FORM PAGE --- */
+.form-page-body {
+  min-height: 100vh;
+  width: 100%;
+  background: #f7f3ec;
+}
+
+.form-page {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  /* clears the navbar so the card never sits underneath it */
+  padding: 90px 20px 40px;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.form-card {
+  width: 100%;
+  max-width: 640px;
+  background-color: #ffffff;
+  border: 2px solid #493939;
+  border-radius: 20px;
+  box-shadow: 4px 4px 0 #493939;
+  padding: 28px 34px;
+}
+
+.form-card .brand-logo {
+  font-family: 'Playwrite VN', cursive;
+  font-size: 1.5rem;
+  color: #f7ec77;
+  text-shadow: 2px 2px 0 #493939;
+  font-weight: 400;
+  margin-bottom: 6px;
+}
+
+.form-card .welcome-header h1 {
+  font-size: 1.6rem;
+  color: #493939;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+.form-card .welcome-header p {
+  color: #666666;
+  font-size: 0.85rem;
+  margin-bottom: 14px;
+}
+
+/* Two-column grid so the whole form fits on one screen */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px 20px;
+}
+
+.form-group-full {
+  grid-column: 1 / -1;
+}
+
+.form-grid .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.form-grid label {
+  font-size: 0.82rem;
+  color: #493939;
+  font-weight: 600;
+}
+
+.form-grid input[type="text"],
+.form-grid input[type="number"] {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  outline: none;
+  background-color: #ffffff;
+  transition: border-color 0.2s;
+  font-family: inherit;
+}
+
+.form-grid input[type="text"]:focus,
+.form-grid input[type="number"]:focus {
+  border-color: #493939;
+}
+
+/* Styled dropdowns to match the inputs, with a custom arrow */
+.form-grid select {
+  width: 100%;
+  padding: 10px 36px 10px 12px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-family: inherit;
+  color: #493939;
+  background-color: #ffffff;
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23493939' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 14px;
+  transition: border-color 0.2s;
+}
+
+.form-grid select:focus {
+  border-color: #493939;
+}
+
+/* File input: match the same rounded look */
+.form-grid input[type="file"] {
+  width: 100%;
+  padding: 8px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 0.82rem;
+  background-color: #ffffff;
+  cursor: pointer;
+}
+
+.form-actions {
+  display: flex;
+  gap: 15px;
+  margin-top: 6px;
+}
+
+.form-actions .btn {
+  flex: 1;
+}
+
+.current-file-note {
+  font-size: 0.72rem;
+  color: #888;
+  font-style: italic;
+}
+
+@media (max-width: 560px) {
+  .form-page {
+    padding: 80px 12px 30px;
+  }
+
+  .form-card {
+    padding: 22px 18px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+}

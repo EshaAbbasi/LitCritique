@@ -1,5 +1,6 @@
 const User = require('../models/user');
 const Book = require('../models/book');
+const uploadBufferToCloudinary = require('../utils/uploadBufferToCloudinary');
 
 const index = async (req, res) => {
   try {
@@ -14,6 +15,7 @@ const index = async (req, res) => {
     res.redirect('/');
   }
 };
+
 const newApp = async (req, res) => {
   try {
     res.render('book/new.ejs');
@@ -25,6 +27,10 @@ const newApp = async (req, res) => {
 
 const create = async (req, res) => {
   try {
+    if (req.file) {
+      req.body.coverImage = await uploadBufferToCloudinary(req.file.buffer);
+    }
+
     const book = new Book(req.body);
     book.user = req.session.user._id;
     await book.save();
@@ -61,6 +67,11 @@ const update = async (req, res) => {
   try {
     const book = await Book.findById(req.params.bookId);
     if (!book) return res.redirect('/books');
+
+    if (req.file) {
+      req.body.coverImage = await uploadBufferToCloudinary(req.file.buffer);
+    }
+
     await book.updateOne(req.body);
     res.redirect(`/books/${req.params.bookId}`);
   } catch (err) {
@@ -118,16 +129,17 @@ const deleteNote = async (req, res) => {
     res.redirect(`/books/${req.params.bookId}`);
   }
 };
+
 const toggleFav = async (req, res) => {
   try {
     const book = await Book.findById(req.params.bookId);
     if (!book) return res.redirect('/books');
 
     const userId = req.session.user._id;
-    const alreadyFav = book.favoritedBy.some(id => id.toString() === userId);
+    const alreadyFav = book.favoritedBy.some((id) => id.toString() === userId);
 
     if (alreadyFav) {
-      book.favoritedBy = book.favoritedBy.filter(id => id.toString() !== userId);
+      book.favoritedBy = book.favoritedBy.filter((id) => id.toString() !== userId);
     } else {
       book.favoritedBy.push(userId);
     }
