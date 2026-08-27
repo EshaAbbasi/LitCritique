@@ -65,6 +65,19 @@ The app is deployed and hosted live on **[Render](https://render.com)**, connect
 - **Cloudinary** — cloud-based image hosting and optimization for all uploaded book cover images
 - **Multer** (with `multer-storage-cloudinary`) — handles image upload from forms and streams them directly to Cloudinary
 
+## #Attributions
+
+This project uses the following external resources:
+
+- **[Google Fonts](https://fonts.google.com/)** — typography used throughout the app, including the logo
+
+- **[Coolors](https://coolors.co/)** — color palette generation
+
+- **[Goodreads](https://www.goodreads.com/shelf/show/book-reviews)** — book cover images
+
+- **[Canva](https://www.canva.com/)** — background image on the home screen
+
+- **[Pinterest](https://www.pinterest.com/)** — images used on the sign-up page
 ### Deployment & Tools
 - **Render** — cloud hosting platform used for live deployment of the app
 - **MongoDB Atlas** — cloud-hosted database used in production
