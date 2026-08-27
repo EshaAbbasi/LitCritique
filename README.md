@@ -65,7 +65,7 @@ The app is deployed and hosted live on **[Render](https://render.com)**, connect
 - **Cloudinary** — cloud-based image hosting and optimization for all uploaded book cover images
 - **Multer** (with `multer-storage-cloudinary`) — handles image upload from forms and streams them directly to Cloudinary
 
-## #Attributions
+### Attributions
 
 This project uses the following external resources:
 
@@ -77,7 +77,7 @@ This project uses the following external resources:
 
 - **[Canva](https://www.canva.com/)** — background image on the home screen
 
-- **[Pinterest](https://www.pinterest.com/)** — images used on the sign-up page
+- **[Pinterest](https://www.pinterest.com/)** — images used on the sign-up page/login page
 ### Deployment & Tools
 - **Render** — cloud hosting platform used for live deployment of the app
 - **MongoDB Atlas** — cloud-hosted database used in production
