@@ -186,7 +186,7 @@ body {
 
 .form-footer {
   font-size: 0.75rem;
-  color: #888888;
+  color: #666666;
   line-height: 1.4;
 }
 
@@ -255,7 +255,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #999;
+  color: #666;
   font-size: 0.8rem;
   text-align: center;
 }
@@ -281,7 +281,7 @@ body {
 
 .book-author {
   font-size: 0.8rem;
-  color: #777;
+  color: #666;
   margin: 0;
 }
 
@@ -368,7 +368,7 @@ body {
 
 .book-owner {
   font-size: 0.75rem;
-  color: #999;
+  color: #666;
   margin: 2px 0 0;
 }
 
@@ -390,7 +390,7 @@ body {
 
 .rating-number {
   font-size: 0.75rem;
-  color: #999;
+  color: #666;
   margin-left: 4px;
 }
 
@@ -496,7 +496,7 @@ body {
 }
 
 .show-owner {
-  color: #888;
+  color: #666;
   font-size: 0.85rem;
   margin: 0;
 }
@@ -526,7 +526,7 @@ body {
   align-items: center;
   justify-content: center;
   background: #f0f0f0;
-  color: #999;
+  color: #666;
   font-size: 0.9rem;
 }
 
@@ -737,7 +737,7 @@ body {
   align-items: center;
   gap: 12px;
   font-size: 0.8rem;
-  color: #888;
+  color: #666;
 }
 
 .note-page {
@@ -762,7 +762,7 @@ body {
 }
 
 .no-notes {
-  color: #888;
+  color: #666;
   font-style: italic;
 }
 
@@ -1086,7 +1086,7 @@ body {
 
 .current-file-note {
   font-size: 0.72rem;
-  color: #888;
+  color: #666;
   font-style: italic;
 }
 
@@ -1201,7 +1201,7 @@ body {
 }
 
 .no-results {
-  color: #888;
+  color: #666;
   font-style: italic;
   padding: 20px 0;
 }
